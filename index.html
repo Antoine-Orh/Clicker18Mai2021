@@ -18,7 +18,8 @@
         },
         scene: {
             preload: preload,
-            create: create
+            create: create,
+            update: update,
         }
     };
 
@@ -26,9 +27,9 @@
 
     function preload ()
     {
-        this.load.image('dev', 'assets/Dev.jpg');
+        this.load.image('dev', 'assets/dev.png');
         this.load.image('sky', 'assets/space3.png');
-        this.load.image('logo', 'assets/phaser3-logo.png');
+        this.load.image('logo', 'assets/logo_nws.svg');
         this.load.image('red', 'assets/red.png');
     }
 
@@ -43,12 +44,13 @@
 
         this.add.image(400, 300, 'sky');
 
+        //PARTICULES
         var particles = this.add.particles('red');
 
         var emitter = particles.createEmitter({
-            speed: 100,
+            speed: 1000,
             scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
+            blendMode: ' EXCLUSION'
         });
 
         var logo = this.physics.add.image(400, 300, 'logo');
@@ -60,28 +62,44 @@
 
         sprite.on('pointerdown', function (pointer) {
         score += 10;
-        scoreText.setText('Score: ' + score);
+        scoreText.setText('Score: ' + score.toFixed(0));
         });
 
         //DEV
         var sprite = this.add.sprite(700, 100, 'dev').setInteractive();
 
         sprite.on('pointerdown', function (pointer) {
-        score -= 10;
-        scoreText.setText('Score: ' + score);
+            if (score>=devCost & score!==0){
+                score -= devCost;
+                scoreText.setText('Score: ' + score.toFixed(0));
+                devCost = devCost + (devCost/10);
+                var n = devCost.toFixed(0);
+                DevCostText.setText('Prix dev: ' + devCost.toFixed(0));
+                devCount += 1;
+                devCountText.setText('nb de devs: ' + devCount);
+            }
+
         });
-
-
 
         var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
         var score = 0;
         var scoreText;
 
-        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '75px', fill: '#ffffff' });
-        
-        emitter.startFollow(logo);
+        var devCount = 0;
+        var devCountText;
+        var devCost = 10;
+        var DevCostText;
 
+        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '25px', fill: '#ffffff' });
+        DevCostText = this.add.text(16, 50, 'Prix dev: 10', { fontSize: '15px', fill: '#ffffff' });
+        devCountText = this.add.text(16, 70, 'nb de devs: 0', { fontSize: '15px', fill: '#ffffff' });
+
+        emitter.startFollow(logo);
     }
+
+//function update (score, dt)
+    //{        score += devCount;}
+
     </script>
 
 </body>
