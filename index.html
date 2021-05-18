@@ -18,8 +18,7 @@
         },
         scene: {
             preload: preload,
-            create: create,
-            update: update
+            create: create
         }
     };
 
@@ -59,7 +58,10 @@
 
         var sprite = this.add.sprite(400, 300, 'logo').setInteractive();
 
-        sprite.on('pointerdown', function (clic);
+        sprite.on('pointerdown', function (pointer) {
+        score += 10;
+        scoreText.setText('Score: ' + score);
+        });
 
         emitter.startFollow(logo);
 
@@ -69,15 +71,6 @@
 
         scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '75px', fill: '#ffffff' });
 
-    }
-
-function update ()
-    {
-        function clic()
-        {
-            score += 10;
-            scoreText.setText('Score: ' + score);
-        }
     }
     </script>
 
