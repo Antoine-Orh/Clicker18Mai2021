@@ -13,7 +13,7 @@
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 200 }
+                gravity: { y: 0 }
             }
         },
         scene: {
@@ -35,6 +35,13 @@
 
     function create ()
     {
+        this.add.text(0, 0, 'Hello World', { font: '"Press Start 2P"' });
+
+        var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+        var score = 0;
+        var scoreText;
+        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
         this.add.image(400, 300, 'sky');
 
         var particles = this.add.particles('red');
@@ -45,13 +52,26 @@
             blendMode: 'ADD'
         });
 
-        var logo = this.physics.add.image(400, 100, 'logo');
+        var logo = this.physics.add.image(400, 300, 'logo');
 
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
+        logo.setVelocity(0, 0);
+
+        var sprite = this.add.sprite(400, 300, 'logo').setInteractive();
+
+        sprite.on('pointerdown', function (clic) {
+
+            score += 10;
+
+        });
 
         emitter.startFollow(logo);
+
+        var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+        var score = 0;
+        var scoreText;
+
+        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '75px', fill: '#ffffff' });
+
     }
     </script>
 
